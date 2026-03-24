@@ -8,9 +8,10 @@ CREATE TABLE IF NOT EXISTS t_file
 
 CREATE TABLE IF NOT EXISTS t_role
 (
-    id         SERIAL PRIMARY KEY,
-    name       VARCHAR(100) UNIQUE                 NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    id          SERIAL PRIMARY KEY,
+    name        VARCHAR(100) UNIQUE                 NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    authorities TEXT      DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS t_user
@@ -100,7 +101,7 @@ CREATE TABLE IF NOT EXISTS t_ticket
     id           SERIAL PRIMARY KEY,
     screening_id INTEGER REFERENCES t_screening (id) ON DELETE CASCADE,
     user_id      INTEGER REFERENCES t_user (id) ON DELETE CASCADE,
-    seat_id      INTEGER     REFERENCES t_seat (id) ON DELETE SET NULL, -- Changed from seat_number
+    seat_id      INTEGER     NOT NULL REFERENCES t_seat (id) ON DELETE CASCADE, -- Changed from seat_number
     purchased_at TIMESTAMP            DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status       VARCHAR(20) NOT NULL DEFAULT 'BOOKED',
     CHECK ( status IN ('BOOKED', 'PAID', 'CANCELED') )
@@ -113,8 +114,8 @@ CREATE TABLE IF NOT EXISTS t_review
     content    TEXT                                NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP                           NULL,
-    user_id    INTEGER REFERENCES t_user (id) ON DELETE CASCADE,
-    film_id    INTEGER REFERENCES t_film (id) ON DELETE CASCADE,
+    user_id    INTEGER                             NOT NULL REFERENCES t_user (id) ON DELETE CASCADE,
+    film_id    INTEGER                             NOT NULL REFERENCES t_film (id) ON DELETE CASCADE,
     UNIQUE (user_id, film_id)
 );
 

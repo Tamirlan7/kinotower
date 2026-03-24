@@ -1,5 +1,6 @@
-package by.tami.kinotower.file.model;
+package by.tami.kinotower.castperson.model;
 
+import by.tami.kinotower.file.model.File;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,12 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "t_file")
+@Table(name = "t_cast_person")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class File {
+public class CastPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -21,9 +22,10 @@ public class File {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String path;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    @Column(nullable = false, length = 100)
-    private String type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private File imageId;
 }
