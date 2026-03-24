@@ -5,6 +5,7 @@ import by.tami.kinotower.file.exception.IllegalFileContentTypeException;
 import by.tami.kinotower.file.mapper.FileMapper;
 import by.tami.kinotower.file.model.File;
 import by.tami.kinotower.file.repository.FileRepository;
+import by.tami.kinotower.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class FileService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public FileDto saveFile(MultipartFile file) {
+    public File saveFile(MultipartFile file) {
         String contentType = file.getContentType();
 
         if (contentType == null ||
@@ -54,11 +55,14 @@ public class FileService {
             fileEntity.setPath(targetLocation.toString());
             fileEntity.setType(file.getContentType());
 
-            return FileMapper.toDto(fileRepository.save(fileEntity));
+            return fileRepository.save(fileEntity);
         } catch (IOException e) {
             logger.error("Cannot create directory {}", targetLocation);
+            throw new BadRequestException("Error occurred in the FileService.saveFile(), message: " + e.getMessage());
         }
+    }
 
-        return null;
+    public FileDto saveFileGetDto(MultipartFile file) {
+        return FileMapper.toDto(this.saveFile(file));
     }
 }

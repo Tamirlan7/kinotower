@@ -3,6 +3,7 @@ package by.tami.kinotower.film.dto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -32,10 +33,10 @@ public class FilmRequestDto {
     @Positive(message = "Duration must be a positive number of minutes")
     private Integer durationMin;
 
-    private Long previewImageId;
+    private MultipartFile previewImage;
 
     @NotNull(message = "Please provide a video file ID")
-    private Long filmVideoId;
+    private MultipartFile filmVideo;
 
     @NotEmpty(message = "A film must have at least one genre assigned")
     private Set<Long> genreIds;

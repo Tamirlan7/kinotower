@@ -21,6 +21,6 @@ public class FileController {
     public ResponseEntity<FileDto> uploadFile(
             @RequestParam("file") MultipartFile file
     ) {
-        return ResponseEntity.ok(fileService.saveFile(file));
+        return ResponseEntity.ok(fileService.saveFileGetDto(file));
     }
 }

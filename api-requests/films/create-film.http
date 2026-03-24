@@ -1,0 +1,47 @@
+### Создание фильма
+POST http://localhost:8080/api/v1/films
+Content-Type: multipart/form-data; boundary=WebBoundary
+
+--WebBoundary
+Content-Disposition: form-data; name="name"
+
+Кажется, навсегда
+--WebBoundary
+Content-Disposition: form-data; name="description"
+
+17-летний Артем гостит в Москве у старшего брата. Город ему не нравится. Друзей нет.
+--WebBoundary
+Content-Disposition: form-data; name="language"
+
+Русский
+--WebBoundary
+Content-Disposition: form-data; name="ageRating"
+
+12
+--WebBoundary
+Content-Disposition: form-data; name="basePrice"
+
+2500.00
+--WebBoundary
+Content-Disposition: form-data; name="durationMin"
+
+196
+--WebBoundary
+Content-Disposition: form-data; name="genreIds"
+
+1
+--WebBoundary
+Content-Disposition: form-data; name="genreIds"
+
+2
+--WebBoundary
+Content-Disposition: form-data; name="previewImage"; filename="poster.webp"
+Content-Type: image/webp
+
+< C:\Users\Acer\Downloads\600x900.webp
+--WebBoundary
+Content-Disposition: form-data; name="filmVideo"; filename="trailer.mp4"
+Content-Type: video/mp4
+
+< C:\Users\Acer\Downloads\Кажется навсегда.mp4
+--WebBoundary--
