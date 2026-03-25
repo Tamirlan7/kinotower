@@ -7,11 +7,17 @@ import by.tami.kinotower.film.dto.FilmResponseDto;
 import by.tami.kinotower.film.mapper.FilmMapper;
 import by.tami.kinotower.film.model.Film;
 import by.tami.kinotower.film.repository.FilmRepository;
+import by.tami.kinotower.genre.dto.GenreDto;
+import by.tami.kinotower.genrefilm.service.GenreFilmService;
 import by.tami.kinotower.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +25,18 @@ public class FilmService {
 
     private final FilmRepository filmRepository;
     private final FileService fileService;
+    private final GenreFilmService genreFilmService;
 
+    public Optional<Film> findFilmByName(String name) {
+        return filmRepository.findByName(name);
+    }
+
+    @Transactional
     public FilmResponseDto createFilm(FilmRequestDto body) {
+        if (findFilmByName(body.getName()).isPresent()) {
+            throw new BadRequestException("Фильм с таким названием уже существует");
+        }
+
         Film film = new Film();
         film.setName(body.getName());
         film.setDescription(body.getDescription());
@@ -44,7 +60,8 @@ public class FilmService {
         film.setFilmVideo(videoFile);
 
         film = filmRepository.save(film);
+        Set<GenreDto> savedGenres = genreFilmService.saveGenresForFilm(film, body.getGenreIds());
 
-        return FilmMapper.toDto(film);
+        return FilmMapper.toDto(film, savedGenres);
     }
 }
