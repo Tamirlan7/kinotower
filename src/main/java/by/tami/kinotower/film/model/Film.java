@@ -1,6 +1,7 @@
 package by.tami.kinotower.film.model;
 
 import by.tami.kinotower.file.model.File;
+import by.tami.kinotower.genrefilm.model.GenreFilm;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "t_film")
@@ -46,4 +49,7 @@ public class Film {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "film_video_id", nullable = false)
     private File filmVideo;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "film", orphanRemoval = true)
+    private Set<GenreFilm> genreFilms = new HashSet<>();
 }

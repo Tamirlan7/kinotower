@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS t_user
     id         SERIAL PRIMARY KEY,
     email      VARCHAR(255)                                      NOT NULL UNIQUE,
     password   VARCHAR(100)                                      NOT NULL,
-    role       INTEGER REFERENCES t_role (id) ON DELETE RESTRICT NOT NULL,
+    role_id       INTEGER REFERENCES t_role (id) ON DELETE RESTRICT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP               NOT NULL,
     updated_at TIMESTAMP                                         NULL
 );

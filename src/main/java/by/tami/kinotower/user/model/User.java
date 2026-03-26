@@ -30,7 +30,7 @@ public class User {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "role_id")
     private Role role;
 
     @CreationTimestamp

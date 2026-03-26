@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @Data
-public class FilmResponseDto {
+public class FilmDto {
     private Long id;
     private String name;
     private String description;

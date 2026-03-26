@@ -33,4 +33,11 @@ VALUES (1, 'Боевик'),
        (24, 'Приключения');
 
 
-
+SELECT
+    *
+FROM t_film
+LEFT JOIN t_file AS tf ON t_film.film_video_id = tf.id
+LEFT JOIN t_file AS tff ON t_film.preview_image_id = tff.id
+LEFT JOIN t_genre_film ON t_film.id = t_genre_film.film_id
+LEFT JOIN t_genre ON t_genre_film.genre_id = t_genre.id
+WHERE t_film.name ILIKE '%каж%'

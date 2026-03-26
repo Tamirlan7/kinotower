@@ -5,12 +5,11 @@ import by.tami.kinotower.web.exception.BadRequestException;
 import by.tami.kinotower.web.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.util.Map;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalFileContentTypeException.class)
@@ -21,14 +20,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Map<String, String>>  handleBadRequestException(IllegalFileContentTypeException ex) {
+    public ResponseEntity<Map<String, String>>  handleBadRequestException(BadRequestException ex) {
         return ResponseEntity
                 .badRequest()
                 .body(Map.of("message", ex.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map<String, String>>  handleNotFoundException(IllegalFileContentTypeException ex) {
+    public ResponseEntity<Map<String, String>>  handleNotFoundException(NotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", ex.getMessage()));

@@ -1,15 +1,15 @@
 package by.tami.kinotower.film.mapper;
 
 import by.tami.kinotower.file.mapper.FileMapper;
-import by.tami.kinotower.film.dto.FilmResponseDto;
+import by.tami.kinotower.film.dto.FilmDto;
 import by.tami.kinotower.film.model.Film;
 import by.tami.kinotower.genre.dto.GenreDto;
 
 import java.util.Set;
 
 public class FilmMapper {
-    public static FilmResponseDto toDto(Film film) {
-        FilmResponseDto dto = new FilmResponseDto();
+    public static FilmDto toDto(Film film) {
+        FilmDto dto = new FilmDto();
         dto.setName(film.getName());
         dto.setDescription(film.getDescription());
         dto.setLanguage(film.getLanguage());
@@ -21,7 +21,7 @@ public class FilmMapper {
         return dto;
     }
 
-    public static FilmResponseDto toDto(Film film, Set<GenreDto> genres) {
+    public static FilmDto toDto(Film film, Set<GenreDto> genres) {
         var dto = toDto(film);
         dto.setGenres(genres);
         return dto;
