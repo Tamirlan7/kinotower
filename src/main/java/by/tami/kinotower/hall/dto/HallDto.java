@@ -10,5 +10,5 @@ public class HallDto {
     private String name;
     private Integer seatsPerRow;
     private Integer rowsCount;
-    private boolean is3d = false;
+    private Boolean is3d;
 }

@@ -5,12 +5,27 @@ import by.tami.kinotower.web.exception.BadRequestException;
 import by.tami.kinotower.web.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>>  handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        Map<String, String> response = new HashMap<>();
+        ex.getFieldErrors().forEach((fieldError) -> {
+            response.put(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+
+        return ResponseEntity
+                .badRequest()
+                .body(response);
+    }
 
     @ExceptionHandler(IllegalFileContentTypeException.class)
     public ResponseEntity<Map<String, String>>  handleIllegalFileContentTypeException(IllegalFileContentTypeException ex) {

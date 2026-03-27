@@ -23,7 +23,7 @@ public class HallService {
 
     public HallDto createHall(@Valid CreateHallRequest request) {
         if (hallRepository.existsByName(request.getName())) {
-            throw new BadRequestException("Hall with name " + request.getName() + " already exists");
+            throw new BadRequestException("Hall with name '" + request.getName() + "' already exists");
         }
 
         Hall hall = new Hall();
@@ -31,6 +31,7 @@ public class HallService {
         hall.setRowsCount(request.getRowsCount());
         hall.setSeatsPerRow(request.getSeatsPerRow());
         hall.set3d(request.is3d());
+
         hall = hallRepository.save(hall);
         return HallMapper.toDto(hall);
     }

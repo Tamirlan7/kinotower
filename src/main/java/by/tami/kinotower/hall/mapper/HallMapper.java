@@ -10,7 +10,7 @@ public class HallMapper {
         dto.setName(hall.getName());
         dto.setRowsCount(hall.getRowsCount());
         dto.setSeatsPerRow(hall.getSeatsPerRow());
-        dto.set3d(hall.is3d());
+        dto.setIs3d(hall.is3d());
         return dto;
     }
 }

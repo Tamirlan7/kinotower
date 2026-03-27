@@ -1,9 +1,7 @@
 package by.tami.kinotower.hall.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,13 +12,14 @@ public class CreateHallRequest {
     @NotBlank(message = "name is required")
     private String name;
 
-    @Size(min = 1, message = "rowsCount cannot be less than 1")
+    @Positive(message = "rowsCount cannot be less than 1")
     @NotNull(message = "rowsCount is required")
     private Integer rowsCount;
 
-    @Size(min = 1, message = "seatsPerRow cannot be less than 1")
+    @Positive(message = "seatsPerRow cannot be less than 1")
     @NotNull(message = "seatsPerRow is required")
     private Integer seatsPerRow;
 
+    @JsonProperty("is3d")
     private boolean is3d = false;
 }
