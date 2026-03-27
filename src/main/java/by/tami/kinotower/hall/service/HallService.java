@@ -39,7 +39,7 @@ public class HallService {
         Page<Hall> halls = hallRepository.findAllByNameAnd3d(
                 params.getName(),
                 params.getIs3d(),
-                Pageable.ofSize(params.getPageSize()).withPage(params.getPage())
+                Pageable.ofSize(params.getSize()).withPage(params.getPage())
         );
 
         GetHallsResponse response = new GetHallsResponse();

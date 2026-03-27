@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetHallsParams {
-    private String name;
+    private String name = "";
     private Boolean is3d = null;
-    private int page = 1;
-    private int pageSize = 10;
+    private int page = 0;
+    private int size = 10;
 }

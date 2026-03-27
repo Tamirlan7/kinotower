@@ -15,8 +15,8 @@ public interface HallRepository extends JpaRepository<Hall, Integer> {
 
     @Query("""
                 SELECT h FROM Hall h
-                WHERE h.name ILIKE CONCAT('%', :name, '%') 
-                            AND (:is3d IS NULL OR :is3d = h.is3d)
+                WHERE (:name IS NULL OR h.name ILIKE %:name%)
+                AND (:is3d IS NULL OR h.is3d = :is3d)
             """)
     Page<Hall> findAllByNameAnd3d(
             @Param("name") String name,
