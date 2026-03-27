@@ -9,6 +9,6 @@ import java.util.List;
 @Setter
 public class GetGenresResponse {
     private List<GenreDto> data;
-    private Long totalItems;
-    private Long totalPages;
+    private long totalItems;
+    private long totalPages;
 }

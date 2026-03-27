@@ -4,6 +4,7 @@ import by.tami.kinotower.genre.dto.GenreDto;
 import by.tami.kinotower.genre.dto.GetGenresParams;
 import by.tami.kinotower.genre.dto.GetGenresResponse;
 import by.tami.kinotower.genre.service.GenreService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class GenreController {
 
     @GetMapping
     public ResponseEntity<GetGenresResponse> getAllGenres(
-            @ModelAttribute GetGenresParams params
+            @ModelAttribute @Valid GetGenresParams params
     ) {
         return ResponseEntity.ok(genreService.getGenres(params));
     }

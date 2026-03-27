@@ -8,6 +8,7 @@ import by.tami.kinotower.genre.model.Genre;
 import by.tami.kinotower.genre.repository.GenreRepository;
 import by.tami.kinotower.web.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,14 @@ public class GenreService {
 
     public GetGenresResponse getGenres(GetGenresParams params) {
         Pageable pageable = Pageable
-                .ofSize(params.getPageSize())
+                .ofSize(params.getSize())
                 .withPage(params.getPage());
-        List<Genre> genres = genreRepository.findAllByName(params.getName(), pageable);
-        Long genresCount = genreRepository.count();
+        Page<Genre> genres = genreRepository.findAllByNameContainingIgnoreCase(params.getName(), pageable);
+
         var response = new GetGenresResponse();
-        response.setData(genres.stream().map(GenreMapper::toDto).toList());
-        response.setTotalItems(genresCount);
-        response.setTotalPages((long) Math.ceil((double) genresCount / params.getPageSize()));
+        response.setData(genres.getContent().stream().map(GenreMapper::toDto).toList());
+        response.setTotalItems(genres.getTotalElements());
+        response.setTotalPages(genres.getTotalPages());
         return response;
     }
 
