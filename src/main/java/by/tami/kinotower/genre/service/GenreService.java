@@ -1,8 +1,12 @@
 package by.tami.kinotower.genre.service;
 
+import by.tami.kinotower.genre.dto.GetGenresParams;
+import by.tami.kinotower.genre.dto.GetGenresResponse;
+import by.tami.kinotower.genre.mapper.GenreMapper;
 import by.tami.kinotower.genre.model.Genre;
 import by.tami.kinotower.genre.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,5 +19,18 @@ public class GenreService {
 
     public List<Genre> findGenresByIds(Iterable<Long> genreIds) {
         return genreRepository.findAllById(genreIds);
+    }
+
+    public GetGenresResponse getGenres(GetGenresParams params) {
+        Pageable pageable = Pageable
+                .ofSize(params.getPageSize())
+                .withPage(params.getPage());
+        List<Genre> genres = genreRepository.findAllByName(params.getName(), pageable);
+        Long genresCount = genreRepository.count();
+        var response = new GetGenresResponse();
+        response.setData(genres.stream().map(GenreMapper::toDto).toList());
+        response.setTotalItems(genresCount);
+        response.setTotalPages((long) Math.ceil((double) genresCount / params.getPageSize()));
+        return response;
     }
 }

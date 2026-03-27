@@ -39,7 +39,6 @@ public class FilmService {
                 params.getSize() + 1
         );
 
-
         boolean hasNext = params.getSize() < films.size();
 
         if (hasNext) {
