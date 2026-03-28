@@ -38,4 +38,29 @@ VALUES ('Hall A', 8, 8, false),
        ('Hall B', 5, 10, false),
        ('Hall C', 15, 10, false),
        ('Hall D', 6, 6, false),
-       ('iMAX', 7, 10, true)
+       ('iMAX', 7, 10, true);
+
+INSERT INTO t_screening (film_id, hall_id, screening_datetime)
+VALUES
+    (2, 2, '2026-03-28T13:00:00'),
+    (11, 2, '2026-03-28T15:00:00');
+
+INSERT INTO t_screening (film_id, hall_id, screening_datetime)
+VALUES
+    (11, 2, '2026-03-29T15:00:00');
+
+
+WITH filteredByDayScreeningsCte AS (
+    SELECT
+        *
+    FROM t_screening
+    WHERE DATE_PART('day', screening_datetime) = '28'
+)
+
+SELECT
+    s.id,
+    s.screening_datetime,
+    f.duration_min
+FROM filteredByDayScreeningsCte AS s
+LEFT JOIN t_film AS f ON s.film_id = f.id
+ORDER BY s.screening_datetime

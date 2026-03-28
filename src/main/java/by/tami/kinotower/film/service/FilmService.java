@@ -12,7 +12,9 @@ import by.tami.kinotower.film.repository.FilmRepository;
 import by.tami.kinotower.genre.dto.GenreDto;
 import by.tami.kinotower.genrefilm.service.GenreFilmService;
 import by.tami.kinotower.web.exception.BadRequestException;
+import by.tami.kinotower.web.exception.NotFoundException;
 import by.tami.kinotower.web.util.CursorUtils;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,5 +96,11 @@ public class FilmService {
         Set<GenreDto> savedGenres = genreFilmService.saveGenresForFilm(film, body.getGenreIds());
 
         return FilmMapper.toDto(film, savedGenres);
+    }
+
+    public Film getFilmById(long filmId) {
+        return filmRepository
+                .findById(filmId)
+                .orElseThrow(() -> new NotFoundException("Film with this id '" + filmId + "' does not exist"));
     }
 }

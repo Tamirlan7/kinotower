@@ -8,7 +8,9 @@ import by.tami.kinotower.hall.mapper.HallMapper;
 import by.tami.kinotower.hall.model.Hall;
 import by.tami.kinotower.hall.repository.HallRepository;
 import by.tami.kinotower.web.exception.BadRequestException;
+import by.tami.kinotower.web.exception.NotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,5 +50,11 @@ public class HallService {
         response.setTotalItems(halls.getTotalElements());
         response.setTotalPages(halls.getTotalPages());
         return response;
+    }
+
+    public Hall getHallById(long hallId) {
+        return hallRepository
+                .findById(hallId)
+                .orElseThrow(() -> new NotFoundException("Hall with this id '" + hallId + "' does not exist"));
     }
 }
